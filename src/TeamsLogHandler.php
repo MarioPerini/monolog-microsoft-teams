@@ -10,6 +10,11 @@ class TeamsLogHandler extends AbstractProcessingHandler
     /**
      * @var string
      */
+    private $app;
+
+    /**
+     * @var string
+     */
     private $url;
 
     /**
@@ -27,14 +32,16 @@ class TeamsLogHandler extends AbstractProcessingHandler
     ];
 
     /**
+     * @param $app
      * @param $url
      * @param int $level
      * @param bool $bubble
      */
-    public function __construct($url, $level = Logger::DEBUG, $bubble = true)
+    public function __construct($app, $url, $level = Logger::DEBUG, $bubble = true)
     {
         parent::__construct($level, $bubble);
 
+        $this->app = $app;
         $this->url = $url;
     }
 
@@ -46,7 +53,7 @@ class TeamsLogHandler extends AbstractProcessingHandler
     protected function getMessage(array $record): TeamsMessage
     {
         return new TeamsMessage([
-            'title' => $record['level_name'] . ': ' . $record['message'],
+            'title' => $this->app . ' ' .$record['level_name'] . ': ' . $record['message'],
             'text' => $record['formatted'],
             'themeColor' => self::$levelColors[$record['level']] ?? self::$levelColors[$this->level],
         ]);

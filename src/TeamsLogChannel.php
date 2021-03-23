@@ -14,6 +14,6 @@ class TeamsLogChannel
      */
     public function __invoke(array $config)
     {
-        return new TeamsLogger($config['url'], $config['level'] ?? Logger::DEBUG);
+        return new TeamsLogger($config['app'],$config['url'], $config['level'] ?? Logger::DEBUG);
     }
 }
